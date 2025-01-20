@@ -58,4 +58,19 @@ class PersonTest extends TestCase
         $this->assertEquals(0, $person->wallet->getBalance());
         $this->assertEquals(100, $person2->wallet->getBalance());
     }
+
+    public function testDivideWalletWithDifferentCurrencies(): void
+    {
+        $person1 = new Person('John Doe', 'USD');
+        $person2 = new Person('Jane Doe', 'EUR');
+        $person3 = new Person('Jim Doe', 'USD');
+
+        $person1->getWallet()->addFund(300);
+        $person1->divideWallet([$person2, $person3]);
+
+        $this->assertEquals(0, $person1->getWallet()->getBalance());
+        $this->assertEquals(0, $person2->getWallet()->getBalance());
+        $this->assertEquals(300, $person3->getWallet()->getBalance());
+    }
+
 }
